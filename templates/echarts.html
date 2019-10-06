@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts图表</title>
+    <style>
+        #main {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        axios.get('/api/bar_data/').then(resp => {
+            var option = {
+                title: {
+                    text: '地产经理人统计'
+                },
+                tooltip: {},
+                legend: {
+                    data:['楼盘数量']
+                },
+                xAxis: {
+                    data: resp.data.x_data
+                },
+                yAxis: {},
+                series: [{
+                    name: '楼盘数量',
+                    type: 'bar',
+                    data: resp.data.y_data
+                }]
+            };
+            myChart.setOption(option);
+        });
+    </script>
+</body>
+</html>
